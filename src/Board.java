@@ -1,5 +1,8 @@
+import java.util.Random;
+
 public class Board {
     char[] arr = new char[9];
+    Random randCpuselect = new Random();
     public void setArr(int idx, char character) {
         this.arr[idx] = character;
     }
@@ -65,5 +68,47 @@ public class Board {
         }
         if (isDraw) return 0;
         return -1;
+    }
+    public int cpu(){
+        for (int i=0; i<9; i++){
+            if (arr[i] == '□') {
+                if (almostWin(i)) return i;
+
+            }
+
+        }
+        for (int i=0; i<9; i++) {
+            if (arr[i] == '□') {
+                if (playerAlmostwin(i)) return i;
+
+            }
+        } int randomSpace;
+
+        do {
+randomSpace = randCpuselect.nextInt(9);
+
+        } while (arr [randomSpace] =='□');
+        return randomSpace;
+    }
+    //Computer checking if it can win in next move, if not it will select another tile
+    public boolean almostWin(int space){
+        char original = arr [space];
+        boolean output = false;
+        arr [space] = 'O';
+        if (winCondition()==2){
+            output = true;
+        } arr [space] = original;
+        return output;
+
+    }
+    public boolean playerAlmostwin(int space) {
+        char original = arr[space];
+        boolean output = false;
+        arr[space] = 'X';
+        if (winCondition() == 1) {
+            output = true;
+        }
+        arr[space] = original;
+        return output;
     }
 }

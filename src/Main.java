@@ -9,10 +9,9 @@ public class Main {
         b.clearBoard();
         Scanner scan = new Scanner(System.in);
         o.msg("Welcome to the Tic Tac Toe game!");
-        o.msg("Please enter Player X's age.");
-        int ageX = Integer.parseInt(scan.nextLine());
-        o.msg("Please enter Player O's age.");
-        int ageO = Integer.parseInt(scan.nextLine());
+        o.msg("Press 1 for single player and 2 for multiplayer");
+        String singlePlayer = scan.nextLine();
+        boolean isOnePlayer;
         boolean playerXturn = true;
         boolean playerXwin = true;
         boolean isValidGuess = true;
@@ -21,21 +20,34 @@ public class Main {
         String[] pXwinMsg = {"Player X takes the cake!","Sweet victory for Player X!","Well played, Player X!","Player O owes you a soda because you win!"};
         String[] pOwinMsg = {"Player O takes the cake!","Sweet victory for Player O!","Well played, Player O!","Player X owes you a soda because you win!"};
         int playerXwins = 0, playerOwins = 0, select = 0;
-        if (ageX > ageO) {
-            o.msg("Since player O is younger, they go first!");
-            playerXturn = false;
-        } else if (ageX < ageO) {
-            o.msg("Since player X is younger, they go first!");
+        if (singlePlayer.equals("1")) {
+            isOnePlayer = true;
+            o.msg("Player X Gets to go first!");
             playerXturn = true;
-        } else if (ageX == ageO) {
-            o.msg("Since both players are the same age, I will choose who goes first!");
-            if (rand.nextBoolean()) {
-                o.msg("Player X gets to go first!");
-                playerXturn = true;
-            } else {
-                o.msg("Player O gets to go first!");
+
+        } else if (singlePlayer.equals ("2")){
+            isOnePlayer = false;
+            o.msg("Please enter Player X's age.");
+            int ageX = Integer.parseInt(scan.nextLine());
+            o.msg("Please enter Player O's age.");
+            int ageO = Integer.parseInt(scan.nextLine());
+            if (ageX > ageO) {
+                o.msg("Since player O is younger, they go first!");
                 playerXturn = false;
+            } else if (ageX < ageO) {
+                o.msg("Since player X is younger, they go first!");
+                playerXturn = true;
+            } else if (ageX == ageO) {
+                o.msg("Since both players are the same age, I will choose who goes first!");
+                if (rand.nextBoolean()) {
+                    o.msg("Player X gets to go first!");
+                    playerXturn = true;
+                } else {
+                    o.msg("Player O gets to go first!");
+                    playerXturn = false;
+                }
             }
+
         }
         // this loop handles restarting the game
         while (true) {
