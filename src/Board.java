@@ -26,7 +26,7 @@ public class Board {
         o.msg("┖───────────────┚");
     }
     public int winCondition() {
-        // nothing = -1, draw = 0, X wins = 1, O wins = 2;
+        // nobody wins = -1, draw = 0, X wins = 1, O wins = 2;
         boolean isDraw = true;
         // top left diagonal
         if ((arr[0] == arr[4]) && (arr[4] == arr[8])) {
@@ -44,7 +44,7 @@ public class Board {
             }
         }
         // rows
-        for (int i = 0; i<3; i+=3) {
+        for (int i = 0; i<9; i+=3) {
             if ((arr[i] == arr[i+1]) && (arr[i+1] == arr[i+2])) {
                 if (arr[i] == 'X') {
                     return 1;
@@ -63,6 +63,7 @@ public class Board {
                 }
             }
         }
+        //checks if no empty squares exist so the game will know it's a draw
         for (char val : arr) {
             if (val == '□') isDraw = false;
         }
@@ -70,27 +71,27 @@ public class Board {
         return -1;
     }
     public int cpu(){
+        // this method returns a 'select' value for the computer player based on this algorithm
+        // first it checks if it can win in 1 turn
         for (int i=0; i<9; i++){
             if (arr[i] == '□') {
                 if (almostWin(i)) return i;
-
             }
-
         }
+        // then it checks if it has to block the human player
         for (int i=0; i<9; i++) {
             if (arr[i] == '□') {
                 if (playerAlmostwin(i)) return i;
-
             }
         } int randomSpace;
-
+        // if it doesn't need to do either, it chooses a random empty space.
         do {
-randomSpace = randCpuselect.nextInt(9);
+            randomSpace = randCpuselect.nextInt(9);
 
-        } while (arr [randomSpace] =='□');
+        } while (arr [randomSpace] !='□');
         return randomSpace;
     }
-    //Computer checking if it can win in next move, if not it will select another tile
+    //Computer checking if it can win in next move
     public boolean almostWin(int space){
         char original = arr [space];
         boolean output = false;
@@ -101,6 +102,7 @@ randomSpace = randCpuselect.nextInt(9);
         return output;
 
     }
+    // computer checking if the player can win in one more turn so it knows when/where to block them
     public boolean playerAlmostwin(int space) {
         char original = arr[space];
         boolean output = false;
